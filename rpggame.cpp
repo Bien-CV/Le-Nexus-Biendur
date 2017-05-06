@@ -11,12 +11,17 @@ RPGGame::RPGGame()
 
 RPGGame::start()
 {
-    string consoleInput;
-    cout<<"Si tu veux un nouveau nombre pseudo-aleatoire, appuies sur entree, sinon ecrit sortir."<<endl;
+    unsigned int consoleInput;
+    cout<<"Combien de nombres pseudo-aleatoires veux tu ?"<<endl;
+    cout<<"Ecrivez 0 pour quitter."<<endl;
 
-    while(consoleInput!="sortir" ){
-        getline(cin, consoleInput);
-        cout<<getRandomNumber()<<endl;
+    while(consoleInput!=0 ){
+
+        cin>>consoleInput;
+
+        std::list<unsigned int> l=rg->getListOfRandomInt(consoleInput);
+
+        rg->printListOfRandomInt(l);
     }
 
     return 0;

@@ -1,6 +1,7 @@
 #ifndef RPGGAME_H
 #define RPGGAME_H
 #include <randomgenerator.h>
+#include <list>
 
 class RPGGame
 {
