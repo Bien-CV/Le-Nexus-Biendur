@@ -1,7 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-
 class Player
 {
 public:
@@ -9,6 +8,7 @@ public:
     void ShowSkills();
     void ShowOtherInfo();
     void ProposeCharChange();
+    void CreateChar();
 };
 
 #endif // PLAYER_H

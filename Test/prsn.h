@@ -5,7 +5,7 @@
 
 class Prsn
 {
-    /*Liste comp
+    /*Liste skills
      * Liste currentWounds
      * Liste maxWounds
      * Liste magic*/
@@ -40,6 +40,11 @@ class Prsn
 
 public:
     Prsn();
+    void CreateChar(bool);
+    void SetBasicInfo();
+    void SetCaracteristics();
+    void SetMoney();
+    void SetMentalInfos();
 };
 
 #endif // PRSN_H

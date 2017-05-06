@@ -1,4 +1,7 @@
 #include "player.h"
+#include <iostream>
+
+using namespace std;
 
 Player::Player()
 {
@@ -16,6 +19,11 @@ void Player::ShowOtherInfo()
 }
 
 void Player::ProposeCharChange()
+{
+
+}
+
+void Player::CreateChar()
 {
 
 }
