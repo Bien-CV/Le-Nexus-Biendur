@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     while(!exiting){
         cout<<"<";
-        cin>>consoleInput;
+        getline(cin, consoleInput);
         if(consoleInput=="exit"){
             exiting=true;
             exit(0);

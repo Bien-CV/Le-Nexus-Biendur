@@ -12,7 +12,7 @@ RPGGame::RPGGame()
 RPGGame::start()
 {
     string consoleInput;
-    cout<<"Si tu veux un nouveau nombre pseudo-aléatoire, appuies sur entrée, sinon écrit sortir."<<endl;
+    cout<<"Si tu veux un nouveau nombre pseudo-aleatoire, appuies sur entree, sinon ecrit sortir."<<endl;
 
     while(consoleInput!="sortir" ){
         getline(cin, consoleInput);
