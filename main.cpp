@@ -1,7 +1,7 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <rpggame.h>
-
+#include <randomgenerator.h>
 using namespace std;
 
 int main(int argc, char *argv[])
