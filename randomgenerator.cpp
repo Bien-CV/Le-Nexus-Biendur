@@ -1,12 +1,13 @@
 #include "randomgenerator.h"
 #include <iostream>
 
+//TODO: Use PCG instead of mersenne twister
+
 using namespace std;
 
 RandomGenerator::RandomGenerator()
 {
-    std::random_device rd;
-    this->seed=rd();
+    this->seed=chrono::high_resolution_clock::now().time_since_epoch().count();
     this->gen.seed(seed);
 }
 
@@ -35,6 +36,23 @@ void RandomGenerator::randomListUI(void){
         rg.printListOfRandomInt(l);
     }
     return;
+}
+void RandomGenerator::compareSeedsUI(void){
+    RandomGenerator* rg;
+
+    for(int i=0;i<20;++i ){
+
+        rg = new RandomGenerator;
+
+        cout<<" seed : "<<rg->getSeed()<<endl;
+
+    }
+    return;
+}
+
+unsigned int RandomGenerator::getSeed()
+{
+    return this->seed;
 }
 
 std::list<unsigned int> RandomGenerator::getListOfRandomInt(unsigned int n){

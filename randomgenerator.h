@@ -3,6 +3,7 @@
 #include <random>
 #include <list>
 #include <iostream>
+#include <chrono>
 
 class RandomGenerator
 {
@@ -16,6 +17,8 @@ public:
     std::list<unsigned int> getListOfRandomInt(unsigned int n);
     std::list<unsigned int> printListOfRandomInt(std::list<unsigned int> listeRandom);
     void randomListUI(void);
+    unsigned int getSeed();
+    void compareSeedsUI();
 };
 
 #endif // RANDOMGENERATOR_H
