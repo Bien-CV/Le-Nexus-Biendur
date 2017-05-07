@@ -12,9 +12,11 @@ TEMPLATE = app
 SOURCES += main.cpp \
     rpggame.cpp \
     toolbox.cpp \
+    lodepng.cpp \
     randomgenerator.cpp
 
 HEADERS += \
     rpggame.h \
     toolbox.h \
+    lodepng.h \
     randomgenerator.h
