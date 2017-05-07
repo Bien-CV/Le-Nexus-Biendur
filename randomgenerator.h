@@ -15,6 +15,7 @@ public:
     unsigned int getRandomInt();
     std::list<unsigned int> getListOfRandomInt(unsigned int n);
     std::list<unsigned int> printListOfRandomInt(std::list<unsigned int> listeRandom);
+    void randomListUI(void);
 };
 
 #endif // RANDOMGENERATOR_H
