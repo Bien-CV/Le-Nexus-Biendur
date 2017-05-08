@@ -14,14 +14,16 @@ int main(int argc, char *argv[])
     cout<<"Bienvenue dans le nexus bien dur"<<endl;
 
     while(!exiting){
+        cout<<"0- exit"<<endl;
         cout<<"1- rpg"<<endl;
         cout<<"2- rdlist"<<endl;
         cout<<"3- imggen"<<endl;
         cout<<"4- compareSeeds"<<endl;
-        cout<<"5- exit"<<endl;
+        cout<<"5- testRandom"<<endl;
+
         cout<<"<";
         getline(cin, consoleInput);
-        if(consoleInput=="5"){
+        if(consoleInput=="0"){
             exiting=true;
             exit(0);
         }
@@ -35,12 +37,17 @@ int main(int argc, char *argv[])
         }
         if(consoleInput=="3"){
             ImgGen imgGen;
-            imgGen.gen();
+            imgGen.genColor();
         }
         if(consoleInput=="4"){
             RandomGenerator rg;
             rg.compareSeedsUI();
         }
+        if(consoleInput=="5"){
+            RandomGenerator rg;
+            rg.test();
+        }
+
 
     }
     return a.exec();

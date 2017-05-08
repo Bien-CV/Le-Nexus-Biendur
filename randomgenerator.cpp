@@ -1,9 +1,7 @@
 #include "randomgenerator.h"
-#include <iostream>
-
-//TODO: Use PCG instead of mersenne twister
 
 using namespace std;
+//Use a portable implementation of random_device to seed the generator
 
 RandomGenerator::RandomGenerator()
 {
@@ -18,7 +16,15 @@ RandomGenerator::RandomGenerator(unsigned int userSeed)
 }
 
 unsigned int RandomGenerator::getRandomInt(){
-     return this->gen();
+    unsigned int generatedNumber=gen();
+    //std::cout<<generatedNumber<<std::endl;
+    return generatedNumber;
+}
+unsigned int RandomGenerator::getRandomInt(unsigned int max){
+    return gen()%(max+1);
+}
+float RandomGenerator::getRandomFloat(){
+    return ( (getRandomInt()*1.0f) /gen.max());
 }
 
 void RandomGenerator::randomListUI(void){
@@ -50,6 +56,25 @@ void RandomGenerator::compareSeedsUI(void){
     return;
 }
 
+void RandomGenerator::test(void){
+    RandomGenerator* rg;
+    rg = new RandomGenerator;
+    int results[43];
+    for(int i=0;i<43;++i){
+        results[i]=0;
+    }
+    for(int i=0;i<9000;++i ){
+
+
+        results[rg->getRandomInt() % (41)]++;
+    }
+    for(int i=0;i<43;++i){
+        cout<<i<<" : "<<results[i]<<endl;
+    }
+    return;
+}
+
+//
 unsigned int RandomGenerator::getSeed()
 {
     return this->seed;

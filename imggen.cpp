@@ -1,5 +1,7 @@
 #include "imggen.h"
 #include <sstream>
+#define WID 1920
+#define HEI 1080
 
 ImgGen::ImgGen()
 {
@@ -40,7 +42,7 @@ void ImgGen::randomSample()
   const char* filename = "random.png";
 
   //generate some image
-  unsigned width = 1920, height = 1080;
+  unsigned width = WID, height = HEI;
   std::vector<unsigned char> image;
   image.resize(width * height * 4);
   for(unsigned y = 0; y < height; y++)
@@ -58,16 +60,17 @@ void ImgGen::randomSample()
 
   encodeOneStep(filename, image, width, height);
 }
-bool ImgGen::isInCircle(unsigned x, unsigned y , unsigned centerX, unsigned centerY, unsigned radius){
-    if(x==centerX){
-        if(y==centerY){
+
+bool ImgGen::isInSqr(unsigned x, unsigned y , unsigned centerX, unsigned centerY, unsigned radius){
+    if( ( x>=centerX-radius ) && ( x<=centerX+radius ) ){
+        if( ( y>=centerY-radius ) && ( y<=centerY+radius ) ){
             return true;
         }
     }
     return false;
 }
 
-void ImgGen::gen()
+void ImgGen::genColor()
 {
   std::cout<<"ImgGenStarting"<<std::endl;
   //NOTE: this sample will overwrite files without warning!
@@ -81,7 +84,158 @@ void ImgGen::gen()
   const char* filename = buffer.str().c_str();
 
   //generate some image
-  unsigned width = 1920, height = 1080;
+  unsigned width = WID, height = HEI;
+  std::vector<unsigned char> image;
+  image.resize(width * height * 4);
+  //first pass
+  for(unsigned y = 0; y < height; y++)
+  for(unsigned x = 0; x < width; x++)
+  {
+    //Red channel
+    image[4 * width * y + 4 * x + 0] = 0;
+    //Green channel
+    image[4 * width * y + 4 * x + 1] = 0;
+    //Blue channel
+    image[4 * width * y + 4 * x + 2] = 0;
+    //Alpha channel
+    image[4 * width * y + 4 * x + 3] = 0;
+  }
+
+  //second pass
+    /*
+    unsigned int hue =rg.getRandomInt()%360;
+    float lightness=0.5f;
+    float saturation=1.0f;
+    */
+  Color baseColor(&rg);
+  for(unsigned x = 0; x < width; x++)
+  {
+      Color c(&rg,baseColor,10);
+      for(unsigned y = 0; y < height; y++)
+      {
+
+            //Red channel
+            image[4 * width * y + 4 * x + 0] = c.R;
+            //Green channel
+            image[4 * width * y + 4 * x + 1] = c.G;
+            //Blue channel
+            image[4 * width * y + 4 * x + 2] = c.B;
+            //Alpha channel
+            image[4 * width * y + 4 * x + 3] = c.A;
+            baseColor=c;
+      }
+  }
+  encodeOneStep(filename, image, width, height);
+}
+
+void ImgGen::genColorMini()
+{
+  std::cout<<"ImgGenStarting"<<std::endl;
+  //NOTE: this sample will overwrite files without warning!
+
+  //string filenameBuffer= "random"+rg.getSeed()+".png";
+  std::stringstream buffer;
+  buffer << std::to_string(rg.getSeed()) << ".png";
+
+  std::cout<< "Making" << buffer.str().c_str() <<std::endl;
+
+  const char* filename = buffer.str().c_str();
+
+  //generate some image
+  unsigned width = WID, height = HEI;
+  std::vector<unsigned char> image;
+  image.resize(width * height * 4);
+  //first pass
+  for(unsigned y = 0; y < height; y++)
+  for(unsigned x = 0; x < width; x++)
+  {
+    //Red channel
+    image[4 * width * y + 4 * x + 0] = 0;
+    //Green channel
+    image[4 * width * y + 4 * x + 1] = 0;
+    //Blue channel
+    image[4 * width * y + 4 * x + 2] = 0;
+    //Alpha channel
+    image[4 * width * y + 4 * x + 3] = 0;
+  }
+
+  //second pass
+    /*
+    unsigned int hue =rg.getRandomInt()%360;
+    float lightness=0.5f;
+    float saturation=1.0f;
+    */
+  Color baseColor(0,1.0f,0.5f,255);
+  for(unsigned y = 0; y < height; y++)
+  for(unsigned x = 0; x < width; x++)
+  {
+        float lightness=0.5f+(rg.getRandomFloat()/4);
+        Color c(&rg,baseColor,10);
+        //Red channel
+        image[4 * width * y + 4 * x + 0] = c.R;
+        //Green channel
+        image[4 * width * y + 4 * x + 1] = c.G;
+        //Blue channel
+        image[4 * width * y + 4 * x + 2] = c.B;
+        //Alpha channel
+        image[4 * width * y + 4 * x + 3] = c.A;
+        baseColor=c;
+  }
+  encodeOneStep(filename, image, width, height);
+}
+
+std::vector<unsigned char> ImgGen::SBSinit()
+{
+  unsigned width = WID, height = HEI;
+  std::vector<unsigned char> image;
+  image.resize(width * height * 4);
+  //first pass
+  for(unsigned y = 0; y < height; y++)
+  for(unsigned x = 0; x < width; x++)
+  {
+    //Red channel
+    image[4 * width * y + 4 * x + 0] = 0;
+    //Green channel
+    image[4 * width * y + 4 * x + 1] = 0;
+    //Blue channel
+    image[4 * width * y + 4 * x + 2] = 0;
+    //Alpha channel
+    image[4 * width * y + 4 * x + 3] = 0;
+  }
+
+  return image;
+}
+
+void ImgGen::SBSout(Image image)
+{
+  //NOTE: this sample will overwrite files without warning!
+
+  std::stringstream buffer;
+  buffer << std::to_string(rg.getSeed()) << ".png";
+
+  std::cout<< "Generated " << buffer.str().c_str() <<std::endl;
+
+  const char* filename = buffer.str().c_str();
+
+  encodeOneStep(filename, image.data, image.width, image.height);
+}
+
+
+void ImgGen::genCircle()
+{
+  std::cout<<"ImgGenStarting"<<std::endl;
+  //NOTE: this sample will overwrite files without warning!
+
+  //string filenameBuffer= "random"+rg.getSeed()+".png";
+  std::stringstream buffer;
+  buffer << std::to_string(rg.getSeed()) << ".png";
+
+  std::cout<< "Making" << buffer.str().c_str() <<std::endl;
+
+  const char* filename = buffer.str().c_str();
+
+  //generate some image
+  unsigned width = WID, height = HEI;
   std::vector<unsigned char> image;
   image.resize(width * height * 4);
   //first pass
@@ -102,7 +256,7 @@ void ImgGen::gen()
   for(unsigned y = 0; y < height; y++)
   for(unsigned x = 0; x < width; x++)
   {
-    if(isInCircle(x,y,width/2,height/2,20)){
+    if(isInSqr(x,y,width/2,height/2,20)){
         //Red channel
         image[4 * width * y + 4 * x + 0] = rg.getRandomInt()%255;
         //Green channel

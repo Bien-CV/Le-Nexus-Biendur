@@ -1,8 +1,11 @@
 QT += core
 QT -= gui
 
-CONFIG += c++11
-QMAKE_CXXFLAGS += -lSDL -lGL -O3
+CONFIG += c++14
+QMAKE_CXXFLAGS += -O3
+
+release:LIBS +=
+debug:LIBS +=
 
 TARGET = LeNexusBiendur
 CONFIG += console
@@ -15,7 +18,9 @@ SOURCES += main.cpp \
     toolbox.cpp \
     lodepng.cpp \
     randomgenerator.cpp \
-    imggen.cpp
+    imggen.cpp \
+    color.cpp \
+    image.cpp
 
 HEADERS += \
     rpggame.h \
@@ -23,6 +28,5 @@ HEADERS += \
     lodepng.h \
     randomgenerator.h \
     imggen.h \
-    pcg_uint128.hpp \
-    pcg_random.hpp \
-    pcg_extras.hpp
+    color.h \
+    image.h

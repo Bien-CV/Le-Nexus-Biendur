@@ -5,12 +5,14 @@
 #include <iostream>
 #include <chrono>
 
+
 class RandomGenerator
 {
-unsigned int seed;
-std::mt19937 gen;
 
 public:
+    std::minstd_rand0 gen;
+    unsigned int seed;
+
     RandomGenerator();
     RandomGenerator(unsigned int userSeed);
     unsigned int getRandomInt();
@@ -19,6 +21,9 @@ public:
     void randomListUI(void);
     unsigned int getSeed();
     void compareSeedsUI();
+    float getRandomFloat();
+    void test();
+    unsigned int getRandomInt(unsigned int max);
 };
 
 #endif // RANDOMGENERATOR_H
