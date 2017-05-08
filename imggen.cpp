@@ -70,12 +70,9 @@ bool ImgGen::isInSqr(unsigned x, unsigned y , unsigned centerX, unsigned centerY
     return false;
 }
 
-void ImgGen::genColor()
+void ImgGen::genColor(unsigned width,unsigned height)
 {
-  std::cout<<"ImgGenStarting"<<std::endl;
-  //NOTE: this sample will overwrite files without warning!
 
-  //string filenameBuffer= "random"+rg.getSeed()+".png";
   std::stringstream buffer;
   buffer << std::to_string(rg.getSeed()) << ".png";
 
@@ -83,49 +80,20 @@ void ImgGen::genColor()
 
   const char* filename = buffer.str().c_str();
 
-  //generate some image
-  unsigned width = WID, height = HEI;
-  std::vector<unsigned char> image;
-  image.resize(width * height * 4);
-  //first pass
-  for(unsigned y = 0; y < height; y++)
-  for(unsigned x = 0; x < width; x++)
-  {
-    //Red channel
-    image[4 * width * y + 4 * x + 0] = 0;
-    //Green channel
-    image[4 * width * y + 4 * x + 1] = 0;
-    //Blue channel
-    image[4 * width * y + 4 * x + 2] = 0;
-    //Alpha channel
-    image[4 * width * y + 4 * x + 3] = 0;
-  }
+  Image im(width,height);
+  Image & img=im;
 
-  //second pass
-    /*
-    unsigned int hue =rg.getRandomInt()%360;
-    float lightness=0.5f;
-    float saturation=1.0f;
-    */
   Color baseColor(&rg);
   for(unsigned x = 0; x < width; x++)
   {
-      Color c(&rg,baseColor,10);
+      Color c(&rg,baseColor,15);
       for(unsigned y = 0; y < height; y++)
       {
-
-            //Red channel
-            image[4 * width * y + 4 * x + 0] = c.R;
-            //Green channel
-            image[4 * width * y + 4 * x + 1] = c.G;
-            //Blue channel
-            image[4 * width * y + 4 * x + 2] = c.B;
-            //Alpha channel
-            image[4 * width * y + 4 * x + 3] = c.A;
+            RGBPixel(img,c,x,y);
             baseColor=c;
       }
   }
-  encodeOneStep(filename, image, width, height);
+  encodeOneStep(filename, img.image, img.width, img.height);
 }
 
 void ImgGen::genColorMini()
@@ -169,7 +137,6 @@ void ImgGen::genColorMini()
   for(unsigned y = 0; y < height; y++)
   for(unsigned x = 0; x < width; x++)
   {
-        float lightness=0.5f+(rg.getRandomFloat()/4);
         Color c(&rg,baseColor,10);
         //Red channel
         image[4 * width * y + 4 * x + 0] = c.R;
@@ -184,26 +151,61 @@ void ImgGen::genColorMini()
   encodeOneStep(filename, image, width, height);
 }
 
-std::vector<unsigned char> ImgGen::SBSinit()
+Image & ImgGen::SBSinit(unsigned width,unsigned height)
 {
-  unsigned width = WID, height = HEI;
-  std::vector<unsigned char> image;
-  image.resize(width * height * 4);
-  //first pass
-  for(unsigned y = 0; y < height; y++)
-  for(unsigned x = 0; x < width; x++)
-  {
-    //Red channel
-    image[4 * width * y + 4 * x + 0] = 0;
-    //Green channel
-    image[4 * width * y + 4 * x + 1] = 0;
-    //Blue channel
-    image[4 * width * y + 4 * x + 2] = 0;
-    //Alpha channel
-    image[4 * width * y + 4 * x + 3] = 0;
-  }
+    Image* img=new Image(width,height);
+    Image & image=*img;
 
   return image;
+}
+
+void ImgGen::RGBPixel(Image & img,Color c, unsigned x,unsigned y){
+
+
+    //Red channel
+    img.image[4 * img.width * y + 4 * x + 0] = c.R;
+    //Green channel
+    img.image[4 * img.width * y + 4 * x + 1] = c.G;
+    //Blue channel
+    img.image[4 * img.width * y + 4 * x + 2] = c.B;
+    //Alpha channel
+    img.image[4 * img.width * y + 4 * x + 3] = c.A;
+}
+
+void ImgGen::UIStart(void){
+    cout<<"Welcome to the Image Generator command interface."<<endl;
+
+
+    bool exiting = false;
+    string consoleInput;
+
+    while(!exiting){
+        cout<<"0- exit"<<endl;
+        cout<<"1- genColor"<<endl;
+        cout<<"2- "<<endl;
+        cout<<"3- "<<endl;
+        cout<<"4- "<<endl;
+        cout<<"5- "<<endl;
+
+        cout<<"<";
+        getline(cin, consoleInput);
+        if(consoleInput=="0"){
+            exiting=true;
+            exit(0);
+        }
+        if(consoleInput=="1"){
+            genColorUI();
+        }
+    }
+}
+void ImgGen::genColorUI(void){
+    int width = askForIntParameter("Width?");
+    int height = askForIntParameter("Height?");
+    int nbOfImages = askForIntParameter("How many images do you want to generate?");
+    for (int i=0;i<nbOfImages;++i){
+        genColor(width,height);
+        rg.Reseed();
+    }
 }
 
 void ImgGen::SBSout(Image image)
@@ -217,7 +219,7 @@ void ImgGen::SBSout(Image image)
 
   const char* filename = buffer.str().c_str();
 
-  encodeOneStep(filename, image.data, image.width, image.height);
+  encodeOneStep(filename, image.image, image.width, image.height);
 }
 
 

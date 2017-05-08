@@ -9,8 +9,9 @@ class Toolbox
 {
 public:
     Toolbox();
-    getWindowsUsername();
     showWelcomeMessage(char* name);
 };
+
+int askForIntParameter(string message);
 
 #endif // TOOLBOX_H

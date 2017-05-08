@@ -6,10 +6,10 @@
 class Image
 {
 public:
-    std::vector<unsigned char> data;
+    std::vector<unsigned char> image;
     unsigned width;
     unsigned height;
-    Image();
+    Image(unsigned aWidth, unsigned anHeight);
 };
 
 #endif // IMAGE_H

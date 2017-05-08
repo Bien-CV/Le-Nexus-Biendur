@@ -5,26 +5,34 @@ using namespace std;
 
 RandomGenerator::RandomGenerator()
 {
+    gen= new std::minstd_rand0;
     this->seed=chrono::high_resolution_clock::now().time_since_epoch().count();
-    this->gen.seed(seed);
+    this->gen->seed(seed);
+}
+
+void RandomGenerator::Reseed()
+{
+    gen= new std::minstd_rand0;
+    this->seed=chrono::high_resolution_clock::now().time_since_epoch().count();
+    this->gen->seed(seed);
 }
 
 RandomGenerator::RandomGenerator(unsigned int userSeed)
 {
     this->seed=userSeed;
-    this->gen.seed(seed);
+    this->gen->seed(seed);
 }
 
 unsigned int RandomGenerator::getRandomInt(){
-    unsigned int generatedNumber=gen();
+    unsigned int generatedNumber=gen->operator ()();
     //std::cout<<generatedNumber<<std::endl;
     return generatedNumber;
 }
 unsigned int RandomGenerator::getRandomInt(unsigned int max){
-    return gen()%(max+1);
+    return gen->operator ()()%(max+1);
 }
 float RandomGenerator::getRandomFloat(){
-    return ( (getRandomInt()*1.0f) /gen.max());
+    return ( (getRandomInt()*1.0f) /gen->max());
 }
 
 void RandomGenerator::randomListUI(void){

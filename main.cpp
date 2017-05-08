@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
         }
         if(consoleInput=="3"){
             ImgGen imgGen;
-            imgGen.genColor();
+            imgGen.UIStart();
         }
         if(consoleInput=="4"){
             RandomGenerator rg;

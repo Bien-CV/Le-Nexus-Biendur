@@ -7,9 +7,13 @@
 #include "color.h"
 #include "randomgenerator.h"
 #include "image.h"
+#include "toolbox.h"
+
+using namespace std;
 
 class ImgGen
 {
+
     RandomGenerator rg;
 
 public:
@@ -18,11 +22,14 @@ public:
     void encodeTwoSteps(const char *filename, std::vector<unsigned char> &Image, unsigned width, unsigned height);
     void randomSample();
     bool isInSqr(unsigned x, unsigned y, unsigned centerX, unsigned centerY, unsigned radius);
-    void genColor();
     void genCircle();
-    std::vector<unsigned char> SBSinit();
+    Image &SBSinit(unsigned width,unsigned height);
     void SBSout(Image Image);
     void genColorMini();
+    void UIStart();
+    void genColor(unsigned width, unsigned height);
+    void genColorUI();
+    void RGBPixel(Image &img, Color c, unsigned x, unsigned y);
 };
 
 #endif // IMGGEN_H

@@ -10,7 +10,7 @@ class RandomGenerator
 {
 
 public:
-    std::minstd_rand0 gen;
+    std::minstd_rand0* gen;
     unsigned int seed;
 
     RandomGenerator();
@@ -24,6 +24,7 @@ public:
     float getRandomFloat();
     void test();
     unsigned int getRandomInt(unsigned int max);
+    void Reseed();
 };
 
 #endif // RANDOMGENERATOR_H
