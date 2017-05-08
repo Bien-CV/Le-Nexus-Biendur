@@ -1,6 +1,8 @@
 #include "color.h"
 using namespace std;
 
+//TODO: std::list<Color> generateAnalogousTheme(Color baseColor,unsigned hueDistance)
+
 Color::Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
 {
     R=r;

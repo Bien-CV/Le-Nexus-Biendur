@@ -24,12 +24,13 @@ public:
     bool isInSqr(unsigned x, unsigned y, unsigned centerX, unsigned centerY, unsigned radius);
     void genCircle();
     Image &SBSinit(unsigned width,unsigned height);
-    void SBSout(Image Image);
+    void SBSout(Image &Image);
     void genColorMini();
     void UIStart();
     void genColor(unsigned width, unsigned height);
     void genColorUI();
     void RGBPixel(Image &img, Color c, unsigned x, unsigned y);
+    Image &fillRays(Image &img);
 };
 
 #endif // IMGGEN_H
