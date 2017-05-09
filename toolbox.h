@@ -9,7 +9,6 @@ class Toolbox
 {
 public:
     Toolbox();
-    showWelcomeMessage(char* name);
 };
 
 int askForIntParameter(string message);

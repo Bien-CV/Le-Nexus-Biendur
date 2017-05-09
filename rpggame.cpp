@@ -9,9 +9,9 @@ RPGGame::RPGGame()
     rg= new RandomGenerator();
 }
 
-RPGGame::start()
+void RPGGame::start()
 {
-    return 0;
+    return;
 }
 
 unsigned int RPGGame::getRandomNumber()

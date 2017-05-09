@@ -2,7 +2,7 @@ QT += core
 QT -= gui
 
 CONFIG += c++14
-QMAKE_CXXFLAGS += -O3
+QMAKE_CXXFLAGS += -Wall -O3
 
 release:LIBS +=
 debug:LIBS +=

@@ -9,7 +9,7 @@ class RPGGame
 
 public:
     RPGGame();
-    start();
+    void start();
     unsigned int getRandomNumber();
 };
 
