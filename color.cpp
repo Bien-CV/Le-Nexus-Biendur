@@ -9,26 +9,7 @@ Color::Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
     G=g;
     B=b;
     A=a;
-}
-
-
-float Color::HueToRGB(float v1, float v2, float vH) {
-    if (vH < 0)
-        vH += 1;
-
-    if (vH > 1)
-        vH -= 1;
-
-    if ((6 * vH) < 1)
-        return (v1 + (v2 - v1) * 6 * vH);
-
-    if ((2 * vH) < 1)
-        return v2;
-
-    if ((3 * vH) < 2)
-        return (v1 + (v2 - v1) * ((2.0f / 3) - vH) * 6);
-
-    return v1;
+    updateHSLvaluesFromRGB();
 }
 
 Color::Color(unsigned int h, float s, float l, unsigned char a)
@@ -44,6 +25,7 @@ Color::Color(unsigned int h, float s, float l, unsigned char a)
 }
 
 void Color::updateRGBvaluesFromHSL(){
+    makeHueValid();
     if (S == 0)
     {
         R = G = B = (unsigned char)(L * 255);
@@ -62,10 +44,16 @@ void Color::updateRGBvaluesFromHSL(){
     }
 }
 
+void Color::updateHSLvaluesFromRGB(){
+    //TODO:Convert HSL to RGB
+    cout<<"Unimplemented method Color::updateHSLvaluesFromRGB used."<<endl;
+}
+
 Color::Color(RandomGenerator* rg)
 {
 
-    H=rg->getRandomInt()%359;
+    //H maximum is not 360 because pure red would have two chances to occur as 0°==360° for hue.
+    H=rg->getRandomInt(359);
     S=rg->getRandomFloat();
     L=rg->getRandomFloat();
     A=255;
@@ -82,6 +70,7 @@ Color::Color(RandomGenerator* rg, unsigned int hue)
     L=rg->getRandomFloat();
     A=255;
 
+    makeHueValid();
     updateRGBvaluesFromHSL();
 }
 
@@ -109,25 +98,14 @@ Color::Color(RandomGenerator* rg,float lightness,float saturation)
     updateRGBvaluesFromHSL();
 }
 
-//fixed Lightness, fixed saturation, random hue from centered hue
-Color::Color(RandomGenerator* rg,float lightness,float saturation,unsigned int hue, unsigned int variation)
-{
-
-    H=hue + (rg->getRandomInt(variation));
-    S=saturation;
-    L=lightness;
-    A=255;
-
-    updateRGBvaluesFromHSL();
-}
 //Color close to the c parameter
 Color::Color(RandomGenerator* rg,Color c,unsigned int variation)
 {
 
-    H=c.H;
-    S=c.S;
-    L=c.L;
-    A=c.A;
+    H=c.getH();
+    S=c.getS();
+    L=c.getL();
+    A=c.getA();
 
     alterHue(rg,variation);
     alterLightness(rg,variation);
@@ -142,9 +120,14 @@ void Color::alterHue(RandomGenerator* rg, unsigned int variation){
     intensity/=2;
     H+=intensity;
 
+    makeHueValid();
+}
+
+void Color::makeHueValid(void){
     if ( H>360 ) H=H%360;
     if ( H<0 ) H=360-(abs(H)%360);
 }
+
 void Color::incHue(RandomGenerator* rg, unsigned int variation){
     int intensity= rg->getRandomInt(variation);
     intensity/=2;
@@ -172,6 +155,61 @@ void Color::setL(float l)
     updateRGBvaluesFromHSL();
 }
 
+void Color::setA(unsigned char a)
+{
+    A=a;
+}
+
+void Color::setR(unsigned char r)
+{
+    R=r;
+}
+
+void Color::setG(unsigned char g)
+{
+    G=g;
+}
+
+void Color::setB(unsigned char b)
+{
+    B=b;
+}
+
+int Color::getH()
+{
+    return H;
+}
+
+float Color::getS()
+{
+    return S;
+}
+
+float Color::getL()
+{
+    return L;
+}
+
+unsigned char Color::getA()
+{
+    return A;
+}
+
+unsigned char Color::getR()
+{
+    return R;
+}
+
+unsigned char Color::getG()
+{
+    return G;
+}
+
+unsigned char Color::getB()
+{
+    return B;
+}
+
 void Color::alterLightness(RandomGenerator* rg, unsigned int variation){
     //mult is in [-variation,variation]
     int mult= ( rg->getRandomInt(variation*2)) -variation;
@@ -193,4 +231,23 @@ void Color::alterSaturation(RandomGenerator* rg, unsigned int variation){
 
     if ( S>1.0f ) S=1.0f;
     if ( S<0.0f ) S=0.0f;
+}
+
+float Color::HueToRGB(float v1, float v2, float vH) {
+    if (vH < 0)
+        vH += 1;
+
+    if (vH > 1)
+        vH -= 1;
+
+    if ((6 * vH) < 1)
+        return (v1 + (v2 - v1) * 6 * vH);
+
+    if ((2 * vH) < 1)
+        return v2;
+
+    if ((3 * vH) < 2)
+        return (v1 + (v2 - v1) * ((2.0f / 3) - vH) * 6);
+
+    return v1;
 }

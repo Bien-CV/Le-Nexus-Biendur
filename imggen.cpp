@@ -6,6 +6,10 @@
 //TODO : getRandomPixelCoordinates
 //TODO : drawColorsFrom(std::list<Color> colorList)
 
+unsigned ImgGen::getRandomXcoordinates(Image &img){
+    return rg.getRandomInt(img.width);
+}
+
 ImgGen::ImgGen()
 {
 
@@ -103,11 +107,11 @@ Image & ImgGen::fillMonochrome(Image & img,int hue)
       {
 
             RGBPixel(img,cy,x,y);
-            cy.setS(cy.S-(1.0f/img.height));
+            cy.setS(cy.getS()-(1.0f/img.height));
       }
 
 
-      c.setL(c.L-(1.0f/img.width));
+      c.setL(c.getL()-(1.0f/img.width));
 
 
   }
@@ -126,11 +130,11 @@ Image & ImgGen::fillDarkMonochrome(Image & img,int hue)
       {
 
             RGBPixel(img,cy,x,y);
-            cy.setS(cy.S-(1.0f/img.height));
+            cy.setS(cy.getS()-(1.0f/img.height));
       }
 
 
-      c.setL(c.L-(0.5f/img.width));
+      c.setL(c.getL()-(0.5f/img.width));
 
 
   }
@@ -150,11 +154,11 @@ Image & ImgGen::fillLightMonochrome(Image & img,int hue)
       {
 
             RGBPixel(img,cy,x,y);
-            cy.setS(cy.S-(1.0f/img.height));
+            cy.setS(cy.getS()-(1.0f/img.height));
       }
 
 
-      c.setL(c.L+(0.5f/img.width));
+      c.setL(c.getL()+(0.5f/img.width));
 
 
   }
@@ -221,11 +225,11 @@ std::list<Color>& ImgGen::listMonochrome(int hue,unsigned resolution)
       for(unsigned y = 0; y < resolution; y++)
       {
             colorList->push_back(cy);
-            cy.setS(cy.S-(1.0f/resolution));
+            cy.setS(cy.getS()-(1.0f/resolution));
       }
 
 
-      c.setL(c.L-(1.0f/resolution));
+      c.setL(c.getL()-(1.0f/resolution));
 
 
   }
@@ -246,11 +250,11 @@ std::list<Color>& ImgGen::listDarkMonochrome(int hue,unsigned resolution)
       for(unsigned y = 0; y < resolution; y++)
       {
             colorList->push_back(cy);
-            cy.setS(cy.S-(1.0f/resolution));
+            cy.setS(cy.getS()-(1.0f/resolution));
       }
 
 
-      c.setL(c.L-(0.5f/resolution));
+      c.setL(c.getL()-(0.5f/resolution));
 
 
   }
@@ -271,13 +275,13 @@ void ImgGen::RGBPixel(Image & img,Color c, unsigned x,unsigned y){
 
 
     //Red channel
-    img.image[4 * img.width * y + 4 * x + 0] = c.R;
+    img.image[4 * img.width * y + 4 * x + 0] = c.getR();
     //Green channel
-    img.image[4 * img.width * y + 4 * x + 1] = c.G;
+    img.image[4 * img.width * y + 4 * x + 1] = c.getG();
     //Blue channel
-    img.image[4 * img.width * y + 4 * x + 2] = c.B;
+    img.image[4 * img.width * y + 4 * x + 2] = c.getB();
     //Alpha channel
-    img.image[4 * img.width * y + 4 * x + 3] = c.A;
+    img.image[4 * img.width * y + 4 * x + 3] = c.getA();
 }
 
 void ImgGen::UIStart(void){

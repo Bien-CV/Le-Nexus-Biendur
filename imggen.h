@@ -40,6 +40,7 @@ public:
     Image &fillLightMonochrome(Image &img, int hue);
     Image &fillWithList(Image &img, std::list<Color> &list);
     Image &fillBetween(Image &img, Color c, unsigned xmin, unsigned xmax, unsigned ymin, unsigned ymax);
+    unsigned getRandomXcoordinates(Image &img);
 };
 
 #endif // IMGGEN_H
