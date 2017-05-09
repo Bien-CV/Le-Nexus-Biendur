@@ -31,6 +31,13 @@ public:
     void genColorUI();
     void RGBPixel(Image &img, Color c, unsigned x, unsigned y);
     Image &fillRays(Image &img);
+    Image &fillMonochrome(Image &img, int hue);
+    void SBSout(Image &image, int hue);
+    Image &fillColor(Image &img, Color baseColor);
+    std::list<Color> &listMonochrome(int hue, unsigned resolution);
+    Image &fillDarkMonochrome(Image &img, int hue);
+    std::list<Color> &listDarkMonochrome(int hue, unsigned resolution);
+    Image &fillLightMonochrome(Image &img, int hue);
 };
 
 #endif // IMGGEN_H

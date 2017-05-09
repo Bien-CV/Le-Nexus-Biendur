@@ -135,6 +135,8 @@ Color::Color(RandomGenerator* rg,Color c,unsigned int variation)
 
     updateRGBvaluesFromHSL();
 }
+
+
 void Color::alterHue(RandomGenerator* rg, unsigned int variation){
     int intensity= rg->getRandomInt(variation*2) -variation;
     intensity/=2;
@@ -150,6 +152,24 @@ void Color::incHue(RandomGenerator* rg, unsigned int variation){
 
     if ( H>360 ) H=H%360;
     if ( H<0 ) H=360-(abs(H)%360);
+}
+
+void Color::setH(int h)
+{
+    H=h;
+    updateRGBvaluesFromHSL();
+}
+
+void Color::setS(float s)
+{
+    S=s;
+    updateRGBvaluesFromHSL();
+}
+
+void Color::setL(float l)
+{
+    L=l;
+    updateRGBvaluesFromHSL();
 }
 
 void Color::alterLightness(RandomGenerator* rg, unsigned int variation){

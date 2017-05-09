@@ -77,6 +77,141 @@ Image & ImgGen::fillRays(Image & img)
   return img;
 }
 
+Image & ImgGen::fillColor(Image & img,Color baseColor)
+{
+
+
+  for(unsigned x = 0; x < img.width; x++)
+  {
+      for(unsigned y = 0; y < img.height; y++)
+      {
+            RGBPixel(img,baseColor,x,y);
+      }
+  }
+  return img;
+}
+
+Image & ImgGen::fillMonochrome(Image & img,int hue)
+{
+
+  Color c(hue,1.0f,1.0f,255);
+  Color cy(hue,1.0f,1.0f,255);
+  for(unsigned x = 0; x < img.width; x++)
+  {
+      cy=c;
+      for(unsigned y = 0; y < img.height; y++)
+      {
+
+            RGBPixel(img,cy,x,y);
+            cy.setS(cy.S-(1.0f/img.height));
+      }
+
+
+      c.setL(c.L-(1.0f/img.width));
+
+
+  }
+
+  return img;
+}
+Image & ImgGen::fillDarkMonochrome(Image & img,int hue)
+{
+
+  Color c(hue,1.0f,0.5f,255);
+  Color cy(hue,1.0f,0.5f,255);
+  for(unsigned x = 0; x < img.width; x++)
+  {
+      cy=c;
+      for(unsigned y = 0; y < img.height; y++)
+      {
+
+            RGBPixel(img,cy,x,y);
+            cy.setS(cy.S-(1.0f/img.height));
+      }
+
+
+      c.setL(c.L-(0.5f/img.width));
+
+
+  }
+
+  return img;
+}
+
+Image & ImgGen::fillLightMonochrome(Image & img,int hue)
+{
+
+  Color c(hue,1.0f,0.5f,255);
+  Color cy(hue,1.0f,0.5f,255);
+  for(unsigned x = 0; x < img.width; x++)
+  {
+      cy=c;
+      for(unsigned y = 0; y < img.height; y++)
+      {
+
+            RGBPixel(img,cy,x,y);
+            cy.setS(cy.S-(1.0f/img.height));
+      }
+
+
+      c.setL(c.L+(0.5f/img.width));
+
+
+  }
+
+  return img;
+}
+
+//TODO: check if working or not
+std::list<Color>& ImgGen::listMonochrome(int hue,unsigned resolution)
+{
+  std::list<Color>* colorList=new std::list<Color>() ;
+  std::list<Color> & ref=*colorList;
+  Color c(hue,1.0f,1.0f,255);
+  Color cy(hue,1.0f,1.0f,255);
+  for(unsigned x = 0; x < resolution; x++)
+  {
+      cy=c;
+      for(unsigned y = 0; y < resolution; y++)
+      {
+            colorList->push_back(cy);
+            cy.setS(cy.S-(1.0f/resolution));
+      }
+
+
+      c.setL(c.L-(1.0f/resolution));
+
+
+  }
+
+  return ref;
+}
+
+//TODO: check if working or not
+std::list<Color>& ImgGen::listDarkMonochrome(int hue,unsigned resolution)
+{
+  std::list<Color>* colorList=new std::list<Color>() ;
+  std::list<Color> & ref=*colorList;
+  Color c(hue,1.0f,0.5f,255);
+  Color cy(hue,1.0f,0.5f,255);
+  for(unsigned x = 0; x < resolution; x++)
+  {
+      cy=c;
+      for(unsigned y = 0; y < resolution; y++)
+      {
+            colorList->push_back(cy);
+            cy.setS(cy.S-(1.0f/resolution));
+      }
+
+
+      c.setL(c.L-(0.5f/resolution));
+
+
+  }
+
+  return ref;
+}
+
 
 Image & ImgGen::SBSinit(unsigned width,unsigned height)
 {
@@ -110,9 +245,9 @@ void ImgGen::UIStart(void){
         cout<<"0- exit"<<endl;
         cout<<"1- genColor"<<endl;
         cout<<"2- successive steps"<<endl;
-        cout<<"3- "<<endl;
-        cout<<"4- "<<endl;
-        cout<<"5- "<<endl;
+        cout<<"3- Monochrome"<<endl;
+        cout<<"4- Dark monochrome"<<endl;
+        cout<<"5- Light monochrome"<<endl;
 
         cout<<"<";
         getline(cin, consoleInput);
@@ -132,6 +267,24 @@ void ImgGen::UIStart(void){
                 rg.Reseed();
             }
         }
+        if(consoleInput=="3"){
+            int width = askForIntParameter("Width?");
+            int height = askForIntParameter("Height?");
+            int hue = askForIntParameter("Hue?");
+            SBSout(fillMonochrome(SBSinit(width,height),hue),hue);
+        }
+        if(consoleInput=="4"){
+            int width = askForIntParameter("Width?");
+            int height = askForIntParameter("Height?");
+            int hue = askForIntParameter("Hue?");
+            SBSout(fillDarkMonochrome(SBSinit(width,height),hue),hue);
+        }
+        if(consoleInput=="5"){
+            int width = askForIntParameter("Width?");
+            int height = askForIntParameter("Height?");
+            int hue = askForIntParameter("Hue?");
+            SBSout(fillLightMonochrome(SBSinit(width,height),hue),hue);
+        }
     }
 }
 void ImgGen::genColorUI(void){
@@ -148,6 +301,18 @@ void ImgGen::SBSout(Image & image)
 {
   std::stringstream buffer;
   buffer << std::to_string(rg.getSeed()) << ".png";
+
+  std::cout<< "Generated " << buffer.str().c_str() <<std::endl;
+
+  const char* filename = buffer.str().c_str();
+
+  encodeOneStep(filename, image.image, image.width, image.height);
+}
+
+void ImgGen::SBSout(Image & image,int hue)
+{
+  std::stringstream buffer;
+  buffer << "Images\\" <<image.width<<"x"<<image.height<<"hue"<< hue << ".png";
 
   std::cout<< "Generated " << buffer.str().c_str() <<std::endl;
 

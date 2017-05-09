@@ -29,6 +29,9 @@ public:
     void alterSaturation(RandomGenerator *rg, unsigned int variation);
     void alterHue(RandomGenerator *rg, unsigned int variation);
     void incHue(RandomGenerator *rg, unsigned int variation);
+    void setH(int h);
+    void setS(float s);
+    void setL(float l);
 private:
     float HueToRGB(float v1, float v2, float vH);
 };
