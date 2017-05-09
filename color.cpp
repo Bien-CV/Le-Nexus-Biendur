@@ -1,6 +1,6 @@
 #include "color.h"
 using namespace std;
-
+//TODO: Do things related to color names databanks
 //TODO: std::list<Color> generateAnalogousTheme(Color baseColor,unsigned hueDistance)
 
 Color::Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a)

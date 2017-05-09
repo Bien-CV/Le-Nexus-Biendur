@@ -162,6 +162,52 @@ Image & ImgGen::fillLightMonochrome(Image & img,int hue)
   return img;
 }
 
+//TODO : Just do it.
+Image & ImgGen::fillWithList(Image & img,std::list<Color>& list)
+{
+    auto listSize=list.size();
+    Color currentColor = list.front();
+    list.pop_front();
+    unsigned interval,xmin,xmax;
+
+  if (img.width >= img.height ){
+      xmin=0;
+      interval=img.width/listSize;
+      xmax=0;
+      for(unsigned int i=0; i<listSize;++i){
+          xmax+=interval;
+          xmin=xmax+1;
+          fillBetween(img,currentColor,xmin,xmax,0,img.height);
+          currentColor = list.front();
+          list.pop_front();
+      }
+
+  }
+
+
+  return img;
+}
+
+//TODO : Just do it.
+Image & ImgGen::fillBetween(Image & img,Color c, unsigned xmin, unsigned xmax, unsigned ymin, unsigned ymax)
+{
+
+
+    for(unsigned x = xmin; x < xmax; x++)
+    {
+      for(unsigned y = ymin; y < ymax; y++)
+      {
+
+          if ( (x<=img.width) && (y<=img.height) )
+            RGBPixel(img,c,x,y);
+      }
+
+    }
+
+
+  return img;
+}
+
 //TODO: check if working or not
 std::list<Color>& ImgGen::listMonochrome(int hue,unsigned resolution)
 {
@@ -312,11 +358,12 @@ void ImgGen::SBSout(Image & image)
 void ImgGen::SBSout(Image & image,int hue)
 {
   std::stringstream buffer;
-  buffer << "Images\\" <<image.width<<"x"<<image.height<<"hue"<< hue << ".png";
+  buffer <<image.width<<"x"<<image.height<<"hue"<< hue << ".png";
 
-  std::cout<< "Generated " << buffer.str().c_str() <<std::endl;
+
 
   const char* filename = buffer.str().c_str();
 
   encodeOneStep(filename, image.image, image.width, image.height);
+  std::cout<< "Generated " << buffer.str().c_str() <<std::endl;
 }

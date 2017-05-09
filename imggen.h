@@ -38,6 +38,8 @@ public:
     Image &fillDarkMonochrome(Image &img, int hue);
     std::list<Color> &listDarkMonochrome(int hue, unsigned resolution);
     Image &fillLightMonochrome(Image &img, int hue);
+    Image &fillWithList(Image &img, std::list<Color> &list);
+    Image &fillBetween(Image &img, Color c, unsigned xmin, unsigned xmax, unsigned ymin, unsigned ymax);
 };
 
 #endif // IMGGEN_H
